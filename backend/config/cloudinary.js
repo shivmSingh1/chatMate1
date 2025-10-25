@@ -39,20 +39,3 @@ const uploadToCloudinary = async (filePath) => {
 
 module.exports = uploadToCloudinary;
 
-// const uploadToCloudinary = async (fileBuffer, fileName) => {
-// 	if (!fileBuffer) throw new Error("No file buffer provided");
-
-// 	return new Promise((resolve, reject) => {
-// 		const stream = cloudinary.uploader.upload_stream(
-// 			{ resource_type: "image", public_id: fileName, overwrite: true },
-// 			(error, result) => {
-// 				if (error) return reject(error);
-// 				resolve(result.secure_url);
-// 			}
-// 		);
-// 		stream.end(fileBuffer);
-// 	});
-// };
-
-
-// module.exports = uploadToCloudinary;
