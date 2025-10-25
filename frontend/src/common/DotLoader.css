@@ -8,7 +8,7 @@
 .dot {
 	/* width: 10px;
 	height: 10px; */
-	background-color: #0d6efd;
+	/* background-color: #0d6efd; */
 	/* Bootstrap primary color */
 	border-radius: 50%;
 	animation: blink 1.4s infinite both;

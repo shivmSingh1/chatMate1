@@ -9,6 +9,7 @@ import { setConverstation } from '../redux/slices/messageSlice';
 import DotLoader from '../common/DotLoader';
 import { RxCross1 } from 'react-icons/rx';
 import { setSelectedUser } from '../redux/slices/userSlice';
+import { Spinner } from 'react-bootstrap';
 
 
 
@@ -131,6 +132,7 @@ function MessageArea() {
 			setMessageText("")
 		} catch (error) {
 			console.log("messaget send error", error.message)
+			setLoading(false)
 		}
 	}
 
@@ -171,7 +173,7 @@ function MessageArea() {
 					style={{ maxHeight: "100vh", minHeight: "100vh" }}
 				>
 					{/* ===== Header ===== */}
-					<div className="d-flex align-items-center justify-content-between gap-3 border-bottom bg-white p-3">
+					<div className="d-flex align-items-center position-relative justify-content-between gap-3 border-bottom bg-white p-3">
 						<div className='d-flex gap-3' >
 							<img
 								src={selectedUser?.image || "https://via.placeholder.com/50"}
@@ -199,7 +201,7 @@ function MessageArea() {
 					{/* ===== Messages Area ===== */}
 					<div
 						className="flex-grow-1 overflow-auto scroll-container p-3 bg-white"
-						style={{ position: "relative", minHeight: "100%" }}
+						style={{ minHeight: "100%" }}
 					>
 						{messages?.participants &&
 							((messages.participants.includes(selectedUser?._id) &&
@@ -232,7 +234,7 @@ function MessageArea() {
 												src={msg.image}
 												alt="msg"
 												style={{
-													maxWidth: "100%",
+													maxWidth: "200px",
 													borderRadius: "8px",
 													marginTop: msg.message ? "8px" : "0",
 												}}
@@ -248,13 +250,30 @@ function MessageArea() {
 								className="position-absolute shadow-sm border rounded bg-white p-2"
 								style={{ bottom: "80px", right: "70px" }}
 							>
-								<img
-									src={frontendImage}
-									alt="preview"
-									width="100"
-									height="100"
-									className="rounded"
-								/>
+								<div className=' ' >
+									<img
+										src={frontendImage}
+										alt="preview"
+										width="100"
+										height="100"
+										className="rounded"
+									/>
+									{
+										loading && (
+											<span
+												style={{
+													position: "absolute",
+													top: "50%",
+													left: "50%",
+													transform: "translate(-50%, -50%)",
+													zIndex: 3
+												}}
+											>
+												<Spinner animation="border" style={{ color: "white" }} />
+											</span>
+										)
+									}
+								</div>
 							</div>
 						)}
 
@@ -262,9 +281,13 @@ function MessageArea() {
 						{showEmoji && (
 							<div
 								className="position-absolute"
-								style={{ bottom: "80px", left: "10px", zIndex: 10 }}
+								style={{ bottom: "80px", right: "35%", zIndex: 10 }}
 							>
-								<EmojiPicker height={"300px"} onEmojiClick={handleEmojiClick} />
+								<EmojiPicker height={"250px"} onEmojiClick={handleEmojiClick}
+									searchDisabled={true}
+									skinTonePickerHidden={true} // skin tone selector hide
+									previewConfig={{ showPreview: false }}
+								/>
 							</div>
 						)}
 						<div ref={scrollRef}></div>
@@ -308,7 +331,7 @@ function MessageArea() {
 						{!loading ? (
 							<IoMdSend
 								size={28}
-								style={{ cursor: "pointer", color: "#0d6efd" }}
+								style={{ cursor: "pointer" }}
 								onClick={handleSendBtn}
 							/>
 						) : (

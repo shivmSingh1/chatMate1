@@ -2,10 +2,13 @@ import React from 'react'
 import { useState } from 'react'
 import { POST } from '../../axios/axios.request';
 import { useNavigate } from 'react-router-dom';
+import { Link } from "react-router-dom";
+import { Spinner } from 'react-bootstrap';
 
 
 function Signup() {
     const navigate = useNavigate()
+    const [loading, setLoading] = useState(false)
     const [userData, setUserData] = useState({
         name: "",
         email: "",
@@ -22,12 +25,15 @@ function Signup() {
     const handleSubmit = async (e) => {
         e.preventDefault()
         try {
+            setLoading(true)
             const res = await POST('/api/auth/signup', userData)
             if (res.status === 200) {
                 console.log("submited")
+                setLoading(false)
                 navigate("/login")
             }
         } catch (error) {
+            setLoading(false)
             console.log("handle submit error", error.message)
         }
     }
@@ -86,9 +92,17 @@ function Signup() {
                     </div>
 
                     <button type="submit" className="btn btn-primary w-100 mt-2">
-                        Sign Up
+                        {loading ? <Spinner animation="border" role="status" /> : "Signup"}
                     </button>
                 </form>
+
+                {/* Login link section */}
+                <p className="text-center mt-3">
+                    Already have an account?{" "}
+                    <Link to="/login" className="text-primary text-decoration-none">
+                        Login
+                    </Link>
+                </p>
             </div>
         </div>
     );
