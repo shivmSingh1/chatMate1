@@ -13,6 +13,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { clearUserData, setSearchUser, setSelectedUser } from '../redux/slices/userSlice';
 import { FaUserEdit } from "react-icons/fa";
 import { Card, Form, InputGroup, Button } from 'react-bootstrap';
+import Avatar from "react-avatar";
 
 function Sidebar() {
 	const [isSearch, setIsSearch] = useState(false);
@@ -74,13 +75,19 @@ function Sidebar() {
 						<h6 className="mb-0 fw-semibold text-dark">Hi, {userData?.name}</h6>
 					</div>
 					<div className="position-relative">
-						<img
-							src={userData?.image}
-							alt="profilePicture"
-							width="40"
-							height="40"
-							className="rounded-circle border"
-						/>
+						{
+							userData?.image ? (
+								<img
+									src={userData?.image}
+									alt="profilePicture"
+									width="40"
+									height="40"
+									className="rounded-circle border"
+								/>
+							) : (
+								<Avatar name={userData?.name} size="40" round={true} />
+							)
+						}
 						<FaUserEdit
 							onClick={() => navigate("/profile")}
 							className="position-absolute text-primary"
@@ -107,7 +114,7 @@ function Sidebar() {
 						?.filter((user) => onlineUsers?.includes(user._id))
 						?.map((user) => (
 							<span key={user._id} onClick={() => handleSearchUserClick(user)}>
-								<ActiveUsersCard greenDot={true} image={user?.image} />
+								<ActiveUsersCard greenDot={true} name={user?.name} image={user?.image} />
 							</span>
 						))}
 				</div>
@@ -127,7 +134,7 @@ function Sidebar() {
 				<div style={{ maxHeight: "60vh", overflowY: "auto" }}>
 					{otherUsers?.map((user) => {
 						if (user._id === data._id) {
-							let selfChatUser = { ...user, name: `${user.name} (You)` };
+							let selfChatUser = { ...user, name: `${user.name} (You)`, avatarName: `${user.name}` };
 							return <UserCard key={user._id} user={selfChatUser} />;
 						}
 						return <UserCard key={user._id} user={user} />;

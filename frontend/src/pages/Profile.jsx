@@ -5,12 +5,15 @@ import useCurrentUserDetails from '../customHook/useCurrentUserDetails'
 import { PUT } from '../../axios/axios.request'
 import { useNavigate } from 'react-router-dom'
 import { IoArrowBack } from 'react-icons/io5'
+import Avatar from 'react-avatar'
+import { Spinner } from 'react-bootstrap'
 
 function Profile() {
 	const { userData } = useCurrentUserDetails()
 	const { data } = useSelector((state) => state.User)
 	const [profilePic, setProfilePic] = useState(null)
 	const [frontendProfilePic, setFrontendProfilePic] = useState(null)
+	const [loading, setLoading] = useState(false)
 	const [name, setName] = useState("")
 	const navigate = useNavigate()
 
@@ -26,8 +29,10 @@ function Profile() {
 
 	const updateProfile = async (payload) => {
 		try {
+			setLoading(true)
 			const res = await PUT("/api/user/editProfile", payload)
 			if (res.status === 200) {
+				setLoading(false)
 				console.log("profile updated")
 				navigate("/")
 			}
@@ -61,13 +66,19 @@ function Profile() {
 					{/* Profile Image */}
 					<div className="text-center">
 						<label htmlFor="profilePicture" style={{ cursor: "pointer" }}>
-							<img
-								src={frontendProfilePic ? frontendProfilePic : data?.image}
-								alt="Profile"
-								className="rounded-circle border"
-								width={100}
-								height={100}
-							/>
+							{
+								data?.image || frontendProfilePic ? (
+									<img
+										src={frontendProfilePic ? frontendProfilePic : data?.image}
+										alt="Profile"
+										className="rounded-circle border"
+										width={100}
+										height={100}
+									/>
+								) : (
+									<Avatar name={data?.name} size="100" round={true} />
+								)
+							}
 							<div className="mt-2 text-primary">Change Photo</div>
 						</label>
 						<input
@@ -119,7 +130,7 @@ function Profile() {
 					</div>
 
 					<button type="submit" className="btn btn-primary w-100 mt-2">
-						Save Changes
+						{loading ? <Spinner /> : "Save Changes"}
 					</button>
 				</form>
 			</div>

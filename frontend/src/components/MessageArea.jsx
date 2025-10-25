@@ -10,6 +10,7 @@ import DotLoader from '../common/DotLoader';
 import { RxCross1 } from 'react-icons/rx';
 import { setSelectedUser } from '../redux/slices/userSlice';
 import { Spinner } from 'react-bootstrap';
+import Avatar from 'react-avatar';
 
 
 
@@ -175,13 +176,19 @@ function MessageArea() {
 					{/* ===== Header ===== */}
 					<div className="d-flex align-items-center position-relative justify-content-between gap-3 border-bottom bg-white p-3">
 						<div className='d-flex gap-3' >
-							<img
-								src={selectedUser?.image || "https://via.placeholder.com/50"}
-								alt=""
-								width="50"
-								height="50"
-								className="rounded-circle border"
-							/>
+							{
+								selectedUser?.image ? (
+									<img
+										src={selectedUser?.image || "https://via.placeholder.com/50"}
+										alt=""
+										width="50"
+										height="50"
+										className="rounded-circle border"
+									/>
+								) : (
+									<Avatar name={selectedUser?.avatarName} size="50" round={true} />
+								)
+							}
 							<div>
 								<h5 className="m-0 fw-semibold">{selectedUser?.name}</h5>
 								<small
@@ -280,7 +287,7 @@ function MessageArea() {
 						{/* Emoji Picker */}
 						{showEmoji && (
 							<div
-								className="position-absolute"
+								className="position-absolute show-emoji"
 								style={{ bottom: "80px", right: "35%", zIndex: 10 }}
 							>
 								<EmojiPicker height={"250px"} onEmojiClick={handleEmojiClick}

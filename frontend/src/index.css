@@ -18,6 +18,10 @@
 		/* IE 10+ */
 	}
 
+	.show-emoji {
+		right: 5% !important;
+	}
+
 }
 
 

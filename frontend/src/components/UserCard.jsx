@@ -2,6 +2,7 @@ import React from "react";
 import { Card, Image } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { setSelectedUser } from "../redux/slices/userSlice";
+import Avatar from "react-avatar";
 
 function UserCard({ user }) {
 	const dispatch = useDispatch();
@@ -20,17 +21,21 @@ function UserCard({ user }) {
 				borderRadius: "12px",
 			}}
 		>
-			<Image
-				src={user?.image || "https://via.placeholder.com/40"}
-				alt="profilePicture"
-				roundedCircle
-				height={45}
-				width={45}
-				className="me-3 border"
-			/>
+			{
+				user?.image ? (
+					<Image
+						src={user?.image}
+						alt="profilePicture"
+						roundedCircle
+						height={45}
+						width={45}
+						className="me-3 border"
+					/>
+				) : <Avatar name={user?.avatarName} className="me-3" size="40" round={true} />
+			}
 			<div>
 				<h6 className="m-0 fw-semibold text-dark">{user?.name}</h6>
-				<small className="text-muted">Click to chat</small>
+				{/* <small className="text-muted">Click to chat</small> */}
 			</div>
 		</Card>
 	);
