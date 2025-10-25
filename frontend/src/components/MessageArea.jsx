@@ -157,7 +157,7 @@ function MessageArea() {
 
 	useEffect(() => {
 		scrollRef?.current?.scrollIntoView({ behavior: 'smooth' })
-	}, [messages])
+	}, [messages, selectedUser])
 
 	// if (!selectedUser) {
 	// 	return (

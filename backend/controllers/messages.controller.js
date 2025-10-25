@@ -55,6 +55,7 @@ exports.sendMessage = async (req, res) => {
 		return successResponse(res, "success", newMessage)
 	} catch (error) {
 		console.log('send message error', error.message)
+		return errorResponse(res, "something went wrong")
 	}
 }
 
@@ -89,6 +90,7 @@ exports.getConversation = async (req, res) => {
 		return successResponse(res, "conversation fetched", Conversation)
 	} catch (error) {
 		console.log("error in getConversation", error.message)
+		return errorResponse(res, "something went wrong")
 	}
 }
 
@@ -111,5 +113,6 @@ exports.searchUsers = async (req, res) => {
 		return successResponse(res, "user found", users)
 	} catch (error) {
 		console.log("error in search", error.message)
+		return errorResponse(res, "something went wrong")
 	}
 }

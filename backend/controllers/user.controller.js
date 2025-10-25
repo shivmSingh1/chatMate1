@@ -15,6 +15,7 @@ exports.getCurrentUser = async (req, res) => {
 		return successResponse(res, "user details fetch successfully", userDetails)
 	} catch (error) {
 		console.log("error", error.message)
+		return errorResponse(res, "something went wrong")
 	}
 }
 
@@ -37,6 +38,7 @@ exports.editProfile = async (req, res, next) => {
 		return successResponse(res, "user details fetch successfully", updatedUser)
 	} catch (error) {
 		console.log("error", error.message)
+		return errorResponse(res, "something went wrong")
 	}
 }
 
@@ -51,5 +53,6 @@ exports.getAllOtherUsers = async (req, res, next) => {
 		return successResponse(res, "all users fetched successfully", users)
 	} catch (error) {
 		console.log("error", error.message)
+		return errorResponse(res, "something went wrong")
 	}
 }

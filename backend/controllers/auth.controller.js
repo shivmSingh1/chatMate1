@@ -59,6 +59,7 @@ exports.signup = async (req, res) => {
         }
     } catch (error) {
         return serverResponse(res, error)
+
     }
 }
 
